@@ -4,7 +4,6 @@ import os
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
-import asyncpg
 import httpx
 
 
@@ -13,7 +12,7 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 from src.api.v1 import event, mailing
 from src.core.config import settings
-from src.db import rabbit, postgres, requests
+from src.db import rabbit, requests
 from src.utils.async_rabbit import AsyncRabbit
 
 # Создание FastAPI приложения
@@ -34,21 +33,12 @@ async def startup():
     await rabbit.rabbit.create_connection(
         f'amqp://{settings.rabbit_user}:{settings.rabbit_pswd}@{settings.rabbit_server}/')
 
-    postgres.postgres = await asyncpg.connect(
-        host=settings.postgres_host,
-        port=settings.postgres_port,
-        user=settings.postgres_user,
-        password=settings.postgres_pswd,
-        database=settings.postgres_db,
-    )
-
     requests.request = httpx.AsyncClient(verify=False)
 
 
 @app.on_event("shutdown")
 async def shutdown_event():
     await rabbit.rabbit.close_connection()
-    await postgres.postgres.close()
     await requests.request.aclose()
 
 

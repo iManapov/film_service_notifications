@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     """Конфиг сервиса уведомлений"""
 
     service_host: str = Field('localhost', env='SERVICE_HOST')
-    service_port: int = Field(8005, env='SERVICE_PORT')
+    service_port: int = Field(8003, env='SERVICE_PORT')
 
     rabbit_server: str = Field('localhost:5672', env='RABBIT_HOST')
     rabbit_user: str = Field('guest', env='RABBIT_USER')
