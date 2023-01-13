@@ -3,6 +3,7 @@ import smtplib
 
 from email.message import EmailMessage
 from jinja2 import Environment, FileSystemLoader
+from jinja2.exceptions import TemplateNotFound
 
 from core.config import settings
 
@@ -28,7 +29,11 @@ class SMTPConnection:
         message["Subject"] = subject
 
         env = Environment(loader=FileSystemLoader(f'{os.path.dirname(__file__)}'))
-        template = env.get_template(template)
+
+        try:
+            template = env.get_template(template)
+        except TemplateNotFound:
+            template = env.get_template(settings.test_template)
 
         # В метод render передаются данные, которые нужно подставить в шаблон
         output = template.render(**context)
