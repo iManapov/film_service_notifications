@@ -19,7 +19,7 @@ class EventService:
         :param routing_key: ключ маршрутизации
         """
 
-        await self.rabbit.send(message=str(message.dict()), routing_key=routing_key)
+        await self.rabbit.send(message=str(message.json()), routing_key=routing_key)
 
 
 def get_event_service(
