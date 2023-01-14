@@ -22,12 +22,6 @@ class Settings(BaseSettings):
 
     users_api_url: str = Field('http://localhost:5001/api/v1', env='USERS_API_URL')
 
-    postgres_host: str = Field('localhost', env='POSTGRES_HOST')
-    postgres_port: int = Field(5432, env='POSTGRES_PORT')
-    postgres_db: str = Field('auth_service_db', env='POSTGRES_DB')
-    postgres_user: str = Field(..., env='POSTGRES_USER')
-    postgres_pswd: str = Field(..., env='POSTGRES_PSWD')
-
     class Config:
         env_file = "src/core/.env"
         env_file_encoding = "utf-8"
