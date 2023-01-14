@@ -5,6 +5,7 @@ services:
   notification-api:
     container_name: fastapi_notification
     build: .
+    env_file: .env
     expose:
       - "8003"
     depends_on:

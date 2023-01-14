@@ -24,7 +24,7 @@ gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornH11Worker --
 
 
 ## Запуск в Docker
-Предварительно необходимо создать файл `src/core/docker.env` со следующими параметрами:
+Предварительно необходимо в корне проекта создать файл `.env` со следующими параметрами:
 ```dotenv
 SERVICE_HOST - хост сервиса
 SERVICE_PORT - порт сервиса

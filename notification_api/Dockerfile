@@ -15,7 +15,6 @@ RUN  apt-get update \
      && pip install -r requirements.txt
 
 COPY . .
-COPY src/core/docker.env src/core/.env
 
 ENTRYPOINT ["gunicorn", "main:app", "--workers", "4", "--worker-class", \
             "uvicorn.workers.UvicornH11Worker", "--bind", "0.0.0.0:8003"]
