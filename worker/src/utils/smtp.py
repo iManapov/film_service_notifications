@@ -19,7 +19,7 @@ class SMTPConnection:
         self.server.login(settings.mail_login, settings.mail_password)
 
     def send_email(self,
-                   to_: str,
+                   to_: list[str],
                    subject: str,
                    template: str,
                    context: dict):

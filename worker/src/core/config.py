@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     mail_login: str = Field(..., env='MAIL_LOGIN')
     mail_password: str = Field(..., env='MAIL_PASSWD')
 
+    users_api_url: str = Field(..., env='USERS_API_URL')
+
     test_email: str = Field(..., env='TEST_EMAIL')
     test_template: str = Field(..., env='TEST_TEMPLATE')
     welcome_template: str = Field(..., env='WELCOME_TEMPLATE')
