@@ -1,0 +1,56 @@
+@startuml
+skinparam componentStyle uml2
+actor Пользователь as Client
+actor Менеджер as Manager
+
+
+component "AdminPanel" {
+    component [Scheduler] as Scheduler {
+        [Celery] as Celery
+    }
+    [Backend (Django)] as Django
+    Django -> Scheduler
+}
+
+component "NotificationAPI" {
+    [RabbitMQ_Publisher] as RabbitMQ_Publisher
+}
+
+component "Worker" {
+    [RabbitMQ_Consumer] as RabbitMQ_Consumer
+    [SMTP_Sender] as SMTP_Sender
+}
+
+component "OtherServices"
+
+
+component "Storages" {
+    database PostgreSQL {
+        frame "Templates_scheme" {
+            [Хранение шаблонов] as TemplateStorage
+        }
+        frame "Scheduler_scheme" {
+            [Хранение информации о планируемых задачах] as "SchedulerStorage"
+        }
+    }
+    database RabbitMQ {
+        [Очередь сообщений для массовой рассылки] as Mailing_Queue
+        [...] as Another_Queue
+        [Очередь для рассылки приветственных сообщений] as Welcome_Queue
+    }
+}
+
+
+Manager -up-> AdminPanel: Управление шаблонами и рассылками
+
+Scheduler -> NotificationAPI: Запросы отправку сообщения в очередь
+OtherServices -> NotificationAPI: Запросы отправку сообщения в очередь
+
+Templates_scheme -> SMTP_Sender: Получение шаблона
+AdminPanel <-> PostgreSQL
+
+RabbitMQ_Publisher -> RabbitMQ
+RabbitMQ -> RabbitMQ_Consumer
+RabbitMQ_Consumer -> SMTP_Sender
+SMTP_Sender -> Client: отправка оповещения
+@enduml

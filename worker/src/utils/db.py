@@ -5,6 +5,7 @@ from psycopg2.extras import DictCursor
 from dataclasses import dataclass
 
 from core.config import settings
+from core.log import logger
 
 
 class Postgres:
@@ -41,4 +42,7 @@ class Postgres:
             return result[0]
 
         except psycopg2.OperationalError as e:
-            print(f"{e}")
+            logger.error(f"{e}")
+
+        finally:
+            self.connection.close()

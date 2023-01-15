@@ -20,7 +20,3 @@
 - POSTGRES_OPTIONS - опции БД Postgres
 
 Запустить - python main_mailing.py и main_welcome.py
-
-
-## Запуск в docker
-Для запуска worker через docker compose необходимо создать файл `core/docker.env` с теми же параметрами

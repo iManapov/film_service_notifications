@@ -26,11 +26,14 @@ def on_message(channel, method_frame, header_frame, body):
 
     # при получении сообщения из очереди выполняем рассылку
     smtp_sender = SMTPConnection()
-    smtp_sender.send_email(to_=settings.test_email,
-                           subject=message["subject"],
-                           template=template_path,  # settings.test_template,
-                           context=message["context"])
-    smtp_sender.close()
+    sending_list = [settings.test_email]
+    try:
+        smtp_sender.send_email(to_=sending_list,
+                               subject=message["subject"],
+                               template=template_path,  # settings.test_template,
+                               context=message["context"])
+    finally:
+        smtp_sender.close()
 
     channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
