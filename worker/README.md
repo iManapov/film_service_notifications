@@ -18,5 +18,6 @@
 - POSTGRES_USER - пользователь БД Postgres
 - POSTGRES_PASSWORD - пароль БД Postgres
 - POSTGRES_OPTIONS - опции БД Postgres
+- USERS_API_URL - URL сервиса авторизации
 
 Запустить - python main_mailing.py и main_welcome.py

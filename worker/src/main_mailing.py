@@ -1,6 +1,9 @@
 import os
 import sys
 import json
+import requests
+
+from typing import Iterator
 
 import pika
 
@@ -24,13 +27,22 @@ def on_message(channel, method_frame, header_frame, body):
     sql = "SELECT file_path FROM content.templates WHERE id= %s"
     template_path = postgres.execute_sql(sql, (message['template_id'],))
 
+    users = message["user"]
+    sending_list = []
+    if isinstance(users, Iterator):
+        for user in users:
+            requests.get(f"{settings.users_api_url}/users/{user}/")
+            sending_list.append(user)
+    else:
+        sending_list = [requests.get(f"{settings.users_api_url}/users/{users}/")]
+
     # при получении сообщения из очереди выполняем рассылку
     smtp_sender = SMTPConnection()
-    sending_list = [settings.test_email]
+
     try:
         smtp_sender.send_email(to_=sending_list,
                                subject=message["subject"],
-                               template=template_path,  # settings.test_template,
+                               template=template_path,
                                context=message["context"])
     finally:
         smtp_sender.close()

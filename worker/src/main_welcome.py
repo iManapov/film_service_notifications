@@ -19,11 +19,12 @@ def on_message(channel, method_frame, header_frame, body):
     logger.info(f"Received message (delivery tag {method_frame.delivery_tag})")
 
     # при получении сообщения из очереди выполняем рассылку
+    sending_list = [requests.get(f"{settings.users_api_url}/users/{message['user']}/")]
     smtp_sender = SMTPConnection()
     try:
-        smtp_sender.send_email(to_=settings.test_email,
+        smtp_sender.send_email(to_=sending_list,
                                subject=message["subject"],
-                               template=settings.welcome_template,  # settings.test_template,
+                               template=settings.welcome_template,
                                context=message["context"])
     finally:
         smtp_sender.close()
