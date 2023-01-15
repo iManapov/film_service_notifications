@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import requests
 
 import pika
 
@@ -58,3 +59,6 @@ def consume_mail_sending(connection: pika.BlockingConnection):
 if __name__ == '__main__':
     connection = pika.BlockingConnection()
     consume_mail_sending(connection)
+
+connection = pika.BlockingConnection()
+consume_mail_sending(connection)
