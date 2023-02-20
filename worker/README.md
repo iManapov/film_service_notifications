@@ -1,23 +1,30 @@
-# Код Worker'а, выполняющего отправку сообщений
+# Notification worker
 
-## Локальный запуск
-Для запуска worker локально необходимо создать файл `core/.env` со следующими параметрами:
+## Local run
+Firstly create env file `core/.env` with following parameters:
 
-- MAIL_SERVER_HOST - адрес почтового сервера
-- MAIL_SERVER_PORT - порт почтового сервера
-- MAIL_LOGIN - имя почтового ящика с которого выполняется рассылка
-- MAIL_PASSWD - пароль почтового ящика с которого выполняется рассылка
-- TEST_EMAIL - имя тестового почтового ящика на который отправляются письма
-- TEST_TEMPLATE - тестовый шаблон для рендеринга писем
-- WELCOME_TEMPLATE - шаблон при регистрации пользователя
-- QUEUE_NAME_MAILING - название очереди для массовой рассылки
-- QUEUE_NAME_WELCOME - название очереди для рассылки при регистрации
-- POSTGRES_HOST - хост БД Postgres
-- POSTGRES_PORT - порт БД Postgres
-- POSTGRES_DB - имя БД Postgres
-- POSTGRES_USER - пользователь БД Postgres
-- POSTGRES_PASSWORD - пароль БД Postgres
-- POSTGRES_OPTIONS - опции БД Postgres
-- USERS_API_URL - URL сервиса авторизации
+```dotenv
+- MAIL_SERVER_HOST - mail server host
+- MAIL_SERVER_PORT - mail server port
+- MAIL_LOGIN - sending email user
+- MAIL_PASSWD - sending email password
+- TEST_EMAIL - test email
+- TEST_TEMPLATE - test template
+- WELCOME_TEMPLATE - welcome template
+- QUEUE_NAME_MAILING - mailing queue name
+- QUEUE_NAME_WELCOME - welcome event queue name
+- POSTGRES_HOST - Postgres host
+- POSTGRES_PORT - Postgres port
+- POSTGRES_DB - Postgres database name
+- POSTGRES_USER - Postgres user
+- POSTGRES_PASSWORD - Postgres password
+- POSTGRES_OPTIONS - Postgres options
+- USERS_API_URL - auth service url
+```
 
-Запустить - python main_mailing.py и main_welcome.py
+To run worker execute following commands:
+```shell
+cd src
+python main_mailing.py
+python main_welcome.py
+```

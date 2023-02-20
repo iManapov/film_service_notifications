@@ -2,7 +2,7 @@ from pydantic import BaseSettings, Field
 
 
 class Settings(BaseSettings):
-    """Конфиг сервиса нотификации"""
+    """Notification worker config"""
 
     pg_host: str = Field('localhost', env='POSTGRES_HOST')
     pg_port: int = Field('5432', env='POSTGRES_PORT')
@@ -22,8 +22,8 @@ class Settings(BaseSettings):
     test_template: str = Field(..., env='TEST_TEMPLATE')
     welcome_template: str = Field(..., env='WELCOME_TEMPLATE')
 
-    queue_name_mailing: str = Field(..., env='QUEUE_NAME_MAILING')  # email.send-mailing
-    queue_name_welcome: str = Field(..., env='QUEUE_NAME_WELCOME')  # emails.send-welcome
+    queue_name_mailing: str = Field(..., env='QUEUE_NAME_MAILING')
+    queue_name_welcome: str = Field(..., env='QUEUE_NAME_WELCOME')
 
     class Config:
         env_file = "core/.env"
@@ -34,7 +34,7 @@ settings = Settings()
 
 
 class LoggerSettings(BaseSettings):
-    """Конфиг логирования"""
+    """Logger config"""
 
     version: int = 1
     disable_existing_loggers: bool = False

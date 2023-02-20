@@ -35,7 +35,6 @@ class SMTPConnection:
         except TemplateNotFound:
             template = env.get_template(settings.test_template)
 
-        # В метод render передаются данные, которые нужно подставить в шаблон
         output = template.render(**context)
         message.add_alternative(output, subtype='html')
         self.server.sendmail(settings.mail_login, to_, message.as_string())

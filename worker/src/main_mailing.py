@@ -1,5 +1,3 @@
-import os
-import sys
 import json
 import requests
 
@@ -16,9 +14,8 @@ from utils.db import Postgres
 
 
 def on_message(channel, method_frame, header_frame, body):
-    """
-    Callback, вызываемый при получении сообщений в очереди
-    """
+    """Getting message from queue callback"""
+
     message = json.loads(str(body, 'UTF-8'))
     logger.info(f"Received message (delivery tag {method_frame.delivery_tag})")
 
@@ -36,7 +33,6 @@ def on_message(channel, method_frame, header_frame, body):
     else:
         sending_list = [requests.get(f"{settings.users_api_url}/users/{users}/")]
 
-    # при получении сообщения из очереди выполняем рассылку
     smtp_sender = SMTPConnection()
 
     try:
@@ -52,9 +48,8 @@ def on_message(channel, method_frame, header_frame, body):
 
 @retry(pika.exceptions.AMQPConnectionError, delay=5, jitter=(1, 3))
 def consume_mail_sending(connection: pika.BlockingConnection):
-    """
-    Метод, прослушивающий очередь
-    """
+    """Listening queue"""
+
     logger.info("Connecting to RabbitMQ...")
     channel = connection.channel()
     channel.basic_consume(settings.queue_name_mailing, on_message)
