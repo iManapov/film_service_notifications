@@ -4,30 +4,30 @@ from src.models.json_mixin import JsonMixin
 
 
 class EventRequestBody(JsonMixin):
-    """Базовая модель тела запроса для event уведомлений."""
+    """Base model for event notifications"""
 
     user_id: uuid.UUID
 
 
 class RegistrationEvent(EventRequestBody):
-    """Модель тела запроса для события регистрации пользователя."""
+    """Model for registration event"""
 
 
 class PaymentEvent(EventRequestBody):
-    """Модель тела запроса для события об успешной оплате услуг."""
+    """Model for payment event"""
 
     amount: float
     service: str
 
 
 class LikeEvent(EventRequestBody):
-    """Модель тела запроса для события лайка."""
+    """Model for new like event"""
 
     comment_id: uuid.UUID
     like_count: int
 
 
 class NewContentEvent(EventRequestBody):
-    """Модель тела запроса для события новый контент."""
+    """Model for new content event"""
 
     content_id: uuid.UUID

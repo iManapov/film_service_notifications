@@ -15,10 +15,10 @@ from src.core.config import settings
 from src.db import rabbit, requests
 from src.utils.async_rabbit import AsyncRabbit
 
-# Создание FastAPI приложения
+
 app = FastAPI(
-    title='name',
-    description="API уведомлений",
+    title='Notifications API',
+    description="Notifications API",
     docs_url='/api/openapi',
     openapi_url='/api/openapi.json',
     default_response_class=ORJSONResponse,
@@ -28,7 +28,6 @@ app = FastAPI(
 
 @app.on_event('startup')
 async def startup():
-    # Подключаемся к базам при старте сервера
     rabbit.rabbit = AsyncRabbit()
     await rabbit.rabbit.create_connection(
         f'amqp://{settings.rabbit_user}:{settings.rabbit_pswd}@{settings.rabbit_server}/')

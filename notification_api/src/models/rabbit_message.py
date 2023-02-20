@@ -5,7 +5,7 @@ from src.models.json_mixin import JsonMixin
 
 
 class RabbitBody(JsonMixin):
-    """Модель сообщений в Rabbit."""
+    """Rabbit queue message model"""
 
     subject: str
     template_id: Optional[uuid.UUID]

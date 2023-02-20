@@ -6,17 +6,17 @@ from src.models.rabbit_message import RabbitBody
 
 
 class EventService:
-    """Сервис взаимодействия с Rabbit."""
+    """RabbitMQ service"""
 
     def __init__(self, rabbit: AbstractProducer):
         self.rabbit = rabbit
 
     async def send_message(self, message: RabbitBody, routing_key: str):
         """
-        Метод отправки сообщения в Rabbit
+        Sends message to Rabbit queue
 
-        :param message: тело сообщения
-        :param routing_key: ключ маршрутизации
+        :param message: message body
+        :param routing_key: routing key
         """
 
         await self.rabbit.send(message=str(message.json()), routing_key=routing_key)
@@ -26,7 +26,8 @@ def get_event_service(
         rabbit: AsyncRabbit = Depends(get_rabbit)
 ) -> EventService:
     """
-    Провайдер EventService,
-    с помощью Depends он сообщает, что ему необходимы AsyncRabbit
+    EventService provider
+    using 'Depends', it says that it needs AsyncRabbit
     """
+
     return EventService(RabbitProducer(rabbit))

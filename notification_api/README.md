@@ -1,42 +1,42 @@
-# Код FAST API приложения
+# Notifications Api
 
-## Локальный запуск
-Предварительно необходимо создать файл `src/core/.env` со следующими параметрами:
+## Local run
+Firstly create env file `src/core/.env` with following parameters:
 ```dotenv
-SERVICE_HOST - хост сервиса
-SERVICE_PORT - порт сервиса
-RABBIT_HOST - сервер RabbitMQ
-RABBIT_USER - пользователь RabbitMQ
-RABBIT_PSWD - пароль пользователя RabbitMQ
-USERS_API_URL - http адрес api сервиса авторизации (пример http://localhost:5001/api/v1)
+SERVICE_HOST - service host
+SERVICE_PORT - service port
+RABBIT_HOST - RabbitMQ server
+RABBIT_USER - RabbitMQ user
+RABBIT_PSWD - RabbitMQ password
+USERS_API_URL - http url to auth service (http://localhost:5001/api/v1)
 ```
 
-Для запуска api под `uvicorn`:
+To run under `uvicorn` execute following commands:
 ```shell
 uvicorn main:app --reload --host localhost --port 8003
 ```
-Для запуска api под `gunicorn`:
+
+To run under `gunicorn` execute following commands:
 ```shell
 gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornH11Worker --bind 0.0.0.0:8003
 ```
+OpenApi documentation url: http://localhost:8003/api/openapi/
 
-Адрес документации: http://localhost:8003/api/openapi/
 
-
-## Запуск в Docker
-Предварительно необходимо в корне проекта создать файл `.env` со следующими параметрами:
+## Run in Docker
+Create `.env` file in the root folder of project with following parameters:
 ```dotenv
-SERVICE_HOST - хост сервиса
-SERVICE_PORT - порт сервиса
-RABBIT_HOST - сервер RabbitMQ
-RABBIT_USER - пользователь RabbitMQ
-RABBIT_PSWD - пароль пользователя RabbitMQ
-USERS_API_URL - http адрес api сервиса авторизации
+SERVICE_HOST - service host
+SERVICE_PORT - service port
+RABBIT_HOST - RabbitMQ server
+RABBIT_USER - RabbitMQ user
+RABBIT_PSWD - RabbitMQ password
+USERS_API_URL - http url to auth service (http://localhost:5001/api/v1)
 ```
 
-Для запуска api в `Docker` необходимо выполнить команду
+To run api in `Docker` execute following command:
 ```shell
 docker compose up --build
 ```
 
-Адрес документации: http://localhost:80/api/openapi/
+OpenApi documentation url: http://localhost/api/openapi/

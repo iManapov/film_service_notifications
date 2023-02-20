@@ -2,7 +2,7 @@ from pydantic import BaseSettings, Field
 
 
 class Settings(BaseSettings):
-    """Конфиг сервиса уведомлений"""
+    """Notification api config"""
 
     service_host: str = Field('localhost', env='SERVICE_HOST')
     service_port: int = Field(8003, env='SERVICE_PORT')

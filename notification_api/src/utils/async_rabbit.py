@@ -7,7 +7,7 @@ from src.core.config import settings
 
 
 class AsyncRabbit:
-    """Класс для асинхронного подключения к Rabbit."""
+    """Class for async connection to RabbitMQ"""
 
     def __init__(self):
         self._conn: Optional[AbstractRobustConnection] = None
@@ -16,7 +16,7 @@ class AsyncRabbit:
         self._key_queue_mapping: dict = settings.rabbit_key_queue_mapping
 
     async def create_connection(self, connection_string: str) -> 'AsyncRabbit':
-        """Метод создания подключения."""
+        """Creates connection"""
 
         self._conn = await connect_robust(connection_string)
         self._channel = await self._conn.channel(publisher_confirms=True)
@@ -29,15 +29,15 @@ class AsyncRabbit:
 
     async def send(self, message: str, routing_key: str):
         """
-        Метод отправки данных в Rabbit.
+        Sends message to Rabbit queue
 
-        :param message: Сообщение
-        :param routing_key: Ключ маршрутизации
+        :param message: message
+        :param routing_key: routing key
         """
 
         await self._exchange.publish(Message(body=message.encode(), delivery_mode=2), routing_key=routing_key)
 
     async def close_connection(self):
-        """Метод закрытие подключения."""
+        """Closes connection"""
 
         await self._conn.close()

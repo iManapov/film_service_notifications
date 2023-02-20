@@ -4,7 +4,7 @@ from src.models.json_mixin import JsonMixin
 
 
 class MailingBody(JsonMixin):
-    """Модель тела запроса для массовой рассылки."""
+    """Model for mailing"""
 
     subject: str
     template_id: uuid.UUID

@@ -12,14 +12,14 @@ router = APIRouter()
 
 @router.post('/welcome',
              response_model=BaseResponse,
-             summary='Успешная регистрация пользователя',
-             description='Эндпоинт для отправка уведомления об успешной регистрации в очередь Rabbit.'
+             summary='Successful user registration',
+             description='Endpoint for sending notification about successful user registration to Rabbit queue'
              )
 async def welcome_handler(
         body: RegistrationEvent,
         event_service: EventService = Depends(get_event_service)
 ):
-    """Отправка уведомления об успешной регистрации в очередь Rabbit."""
+    """Sending notification about successful user registration to Rabbit queue"""
 
     rabbit_message = RabbitBody(subject=messages.welcome.subject, context={}, user=body.user_id)
     await event_service.send_message(message=rabbit_message, routing_key=messages.welcome.routing_key)
@@ -29,14 +29,14 @@ async def welcome_handler(
 
 @router.post('/payment',
              response_model=BaseResponse,
-             summary='Успешная оплата услуг',
-             description='Эндпоинт для отправки уведомления об успешной оплате.'
+             summary='Successful payment',
+             description='Endpoint for sending notification about successful payment to Rabbit queue'
              )
 async def payment_handler(
         body: PaymentEvent,
         event_service: EventService = Depends(get_event_service)
 ):
-    """Отправка уведомления об успешной оплате в очередь Rabbit."""
+    """Sending notification about successful payment to Rabbit queue"""
 
     msg_context = {'amount': body.amount, 'service': body.service}
     rabbit_message = RabbitBody(subject=messages.payment.subject, context=msg_context, user=body.user_id)
@@ -47,14 +47,14 @@ async def payment_handler(
 
 @router.post('/like',
              response_model=BaseResponse,
-             summary='Лайк на комментарии',
-             description='Эндпоинт для отправки уведомления о получении лайка на комментарий.'
+             summary='Like on comment',
+             description='Endpoint for sending notification about new like on comment to Rabbit queue'
              )
 async def like_handler(
         body: LikeEvent,
         event_service: EventService = Depends(get_event_service)
 ):
-    """Отправка уведомления о получении лайка на комментарий в Rabbit."""
+    """Sending notification about new like on comment to Rabbit queue"""
 
     msg_context = {'comment_id': body.comment_id, 'like_count': body.like_count}
 
@@ -66,14 +66,14 @@ async def like_handler(
 
 @router.post('/newcontent',
              response_model=BaseResponse,
-             summary='Вышла новая серия',
-             description='Эндпоинт для отправки уведомления о выходе новой серии.'
+             summary='New content',
+             description='Endpoint for sending notification about new content to Rabbit queue'
              )
 async def new_content_handler(
         body: NewContentEvent,
         event_service: EventService = Depends(get_event_service)
 ):
-    """Отправка уведомления о получении лайка на комментарий в Rabbit."""
+    """Sending notification about new content to Rabbit queue"""
 
     msg_context = {'content_id': body.content_id}
     rabbit_message = RabbitBody(subject=messages.new_content.subject, context=msg_context, user=body.user_id)

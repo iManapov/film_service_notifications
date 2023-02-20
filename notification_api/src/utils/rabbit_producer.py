@@ -5,27 +5,26 @@ from src.utils.async_rabbit import AsyncRabbit
 
 
 class AbstractProducer(ABC):
-    """Абстрактный класс для подключения к хранилищу."""
+    """Abstract message producer class"""
 
     @abstractmethod
     def send(self, message: str, routing_key: str):
-        """Метод отправки данных в хранилище"""
+        """Send message to queue"""
         pass
 
 
 @dataclass
 class RabbitProducer(AbstractProducer):
-    """
-    Класс для отправки данных в Kafka
-    """
+    """Rabbit message producer class"""
+
     rabbit: AsyncRabbit
 
     async def send(self, message: str, routing_key: str):
         """
-        Метод отправки данных в Rabbit.
+        Sends message to Rabbit queue
 
-        :param message: Сообщение
-        :param routing_key: Ключ маршрутизации
+        :param message: message
+        :param routing_key: routing key
         """
 
         await self.rabbit.send(message=message, routing_key=routing_key)
